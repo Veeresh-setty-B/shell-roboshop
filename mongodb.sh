@@ -24,7 +24,7 @@ VALIDATE(){
     fi
 }
 mkdir -p $LOGFOLDER
-cp mango.repo /etc/yum.repos.d/mongo.repo
+cp mongo.repo /etc/yum.repos.d/mongo.repo
 
 dnf install mongodb-org -y &>> $LOGFILE
 VALIDATE $? "Installing Mangodb"
