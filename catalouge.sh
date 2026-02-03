@@ -2,7 +2,7 @@
 
 USER=$(id -u)
 
-if [ $USERID -ne 0]; then
+if [ $USERID -ne 0 ]; then
 echo "Run the command with root user" | tee -a $LOGFILE
 else
 exit 1
