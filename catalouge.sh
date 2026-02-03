@@ -28,7 +28,8 @@ dnf module enable nodejs:20 -y
 dnf install nodejs -y
 VALIDATE $? "Installed nodejs"
 
-mkdir /app 
+mkdir -p /app 
+mkdir -p $LOGFOLDER
 
 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
 VALIDATE $? "Creating User"
