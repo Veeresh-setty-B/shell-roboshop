@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USER=$(id -u)
+USERID=$(id -u)
 
 if [ $USERID -ne 0 ]; then
 echo "Run the command with root user" | tee -a $LOGFILE
