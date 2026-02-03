@@ -22,6 +22,7 @@ else
 echo "$2: Success" | tee -a $LOGFILE
 fi
 }
+mkdir -p $LOGFOLDER
 
 dnf module disable nodejs -y
 dnf module enable nodejs:20 -y
@@ -29,7 +30,7 @@ dnf install nodejs -y
 VALIDATE $? "Installed nodejs"
 
 mkdir -p /app 
-mkdir -p $LOGFOLDER
+
 
 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
 VALIDATE $? "Creating User"
