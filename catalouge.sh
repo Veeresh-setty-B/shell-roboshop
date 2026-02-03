@@ -31,7 +31,7 @@ dnf module enable nodejs:20 -y
 dnf install nodejs -y
 VALIDATE $? "Installed nodejs"
 
-id roboshop &>>$LOGS_FILE
+id roboshop &>>$LOGFILE
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOGS_FILE
     VALIDATE $? "Creating system user"
@@ -49,19 +49,19 @@ VALIDATE $? "Removing existing code"
 unzip /tmp/catalogue.zip
 
 cd /app 
-npm install &>>$LOGS_FILE
+npm install &>>$LOGFILE
 VALIDATE $? "Installed npm" 
 
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? "Created systemctl service"
 
 systemctl daemon-reload
-systemctl enable catalogue &>>$LOGS_FILE
+systemctl enable catalogue &>>$LOGFILE
 systemctl start catalogue
 VALIDATE $? "Starting and enabling catalogue"
 
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
-dnf install mongodb-mongosh -y &>>$LOGS_FILE
+dnf install mongodb-mongosh -y &>>$LOGFILE
 
 if [ $INDEX -le 0 ]; then
     mongosh --host $MONGODB_HOST </app/db/master-data.js
