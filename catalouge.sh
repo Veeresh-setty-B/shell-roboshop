@@ -1,6 +1,12 @@
 #!/bin/bash
 
 USERID=$(id -u)
+LOGFOLDER="/var/log/script"
+LOGFILE="$LOGFOLDER/$0"
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
 
 if [ $USERID -ne 0 ]; then
 echo "Run the command with root user" | tee -a $LOGFILE
