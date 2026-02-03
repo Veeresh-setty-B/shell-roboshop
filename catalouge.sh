@@ -26,6 +26,16 @@ fi
 dnf module disable nodejs -y
 dnf module enable nodejs:20 -y
 dnf install nodejs -y
-VALIDATE $? "Installed node"
+VALIDATE $? "Installed nodejs"
 
 mkdir /app 
+
+useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+VALIDATE $? "Creating User"
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
+cd /app 
+unzip /tmp/catalogue.zip
+
+cd /app 
+npm install 
+VALIDATE $? "Installed npm"
