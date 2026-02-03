@@ -30,5 +30,3 @@ dnf install nodejs -y
 VALIDATE $? "Installed node"
 
 mkdir /app 
-
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
