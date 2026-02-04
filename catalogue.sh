@@ -1,8 +1,8 @@
 #!/bin/bash
 
 USERID=$(id -u)
-LOGFOLDER="/var/log/script"
-LOGFILE="$LOGFOLDER/$0"
+LOGS_FOLDER="/var/log/script"
+LOGS_FILE="$LOGS_FOLDER/$0"
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -13,7 +13,7 @@ set -e
 trap 'echo "There is an error in $LINENO, Command: $BASH_COMMAND"' ERR
 
 if [ $USERID -ne 0 ]; then
-echo "Run the command with root user" | tee -a $LOGFILE
+echo "Run the command with root user" | tee -a $LOGS_FILE
 exit 1
 fi
 
@@ -21,17 +21,17 @@ VALIDATE(){
 if [ $1 -ne 0 ]; then
 echo "$2: Failure"
 else
-echo "$2: Success" | tee -a $LOGFILE
+echo "$2: Success" | tee -a $LOGS_FILE
 fi
 }
-mkdir -p $LOGFOLDER
+mkdir -p $LOGS_FOLDER
 
 dnf module disable nodejs -y
 dnf module enable nodejs:20 -y
 dnf install nodejs -y
 VALIDATE $? "Installed nodejs"
 
-id roboshop &>>$LOGFILE
+id roboshop &>>$LOGS_FILE
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOGS_FILE
     VALIDATE $? "Creating system user"
@@ -49,19 +49,19 @@ VALIDATE $? "Removing existing code"
 unzip /tmp/catalogue.zip
 
 cd /app 
-npm install &>>$LOGFILE
+npm install &>>$LOGS_FILE
 VALIDATE $? "Installed npm" 
 
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? "Created systemctl service"
 
 systemctl daemon-reload
-systemctl enable catalogue &>>$LOGFILE
+systemctl enable catalogue &>>$LOGS_FILE
 systemctl start catalogue
 VALIDATE $? "Starting and enabling catalogue"
 
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
-dnf install mongodb-mongosh -y &>>$LOGFILE
+dnf install mongodb-mongosh -y &>>$LOGS_FILE
 
 if [ $INDEX -le 0 ]; then
     mongosh --host $MONGODB_HOST </app/db/master-data.js

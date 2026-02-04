@@ -1,8 +1,8 @@
 #!/bin/bash
 
 USERID=$(id -u)
-LOGFOLDER="/var/log/script"
-LOGFILE="$LOGFOLDER/$0"
+LOGS_FOLDER="/var/log/script"
+LOGS_FILE="$LOGS_FOLDER/$0"
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -12,21 +12,21 @@ set -e
 trap 'echo "There is an error in $LINENO, Command: $BASH_COMMAND"' ERR
 
 if [ $USERID -ne 0 ]; then
-    echo "$G Run the script with Root User$N" | tee -a $LOGFILE
+    echo "$G Run the script with Root User$N" | tee -a $LOGS_FILE
     exit 1
 fi
 
 VALIDATE(){
     if [ $1 -ne 0 ]; then
-    echo "$2 : $G Failure$N"  | tee -a $LOGFILE
+    echo "$2 : $G Failure$N"  | tee -a $LOGS_FILE
     else
     echo "$2 : Success"
     fi
 }
-mkdir -p $LOGFOLDER
+mkdir -p $LOGS_FOLDER
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 
-dnf install mongodb-org -y &>> $LOGFILE
+dnf install mongodb-org -y &>> $LOGS_FILE
 VALIDATE $? "Installing Mangodb"
 
 systemctl enable mongod 
