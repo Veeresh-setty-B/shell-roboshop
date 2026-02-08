@@ -2,7 +2,7 @@
 
 USERID=$(id -u)
 LOGS_FOLDER="/var/log/script"
-LOGS_FILE="$LOGS_FOLDER/$0"
+LOGS_FILE="$LOGS_FOLDER/$0.txt"
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
