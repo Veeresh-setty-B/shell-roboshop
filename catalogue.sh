@@ -9,8 +9,6 @@ Y="\e[33m"
 N="\e[0m"
 SCRIPT_DIR=$PWD
 MONGODB_HOST=mongodb.veereshsetty.online
-set -e
-trap 'echo "There is an error in $LINENO, Command: $BASH_COMMAND"' ERR
 
 if [ $USERID -ne 0 ]; then
 echo "Run the command with root user" | tee -a $LOGS_FILE
